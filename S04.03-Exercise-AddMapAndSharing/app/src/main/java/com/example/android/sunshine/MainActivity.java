@@ -222,7 +222,22 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
         }
 
         // TODO (2) Launch the map when the map menu item is clicked
-
+        if (id == R.id.action_open_map){
+            launchMap();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void launchMap(){
+        String location = SunshinePreferences.getPreferredWeatherLocation(this);
+         Uri.Builder mapUriBuilder = new Uri.Builder();
+         mapUriBuilder.scheme("geo").appendPath("0,0").appendQueryParameter("q",location);
+         Uri mapUri = mapUriBuilder.build();
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW,mapUri);
+        if(mapIntent.resolveActivity(getPackageManager())!=null){
+            startActivity(mapIntent);
+        }
     }
 }
